@@ -3,11 +3,9 @@ import scipy.sparse as sparse
 import matplotlib.pyplot as plt
 
 def main():
-	# r = 4
-	# c = 3
-
+	# Part 1: reads in file and plots sparsity
 	print("importing file...")
-	gr = np.loadtxt('graph.txt',dtype=int)
+	gr = np.loadtxt('assignment_graph.txt',delimiter=',',dtype=int)
 	print("done...")
 
 	c = gr[:,0].size
@@ -22,15 +20,12 @@ def main():
 	adj_matrix = sparse.csr_matrix((ones,(gr[:,0],gr[:,1])),shape=s,dtype=int)
 	print("done...")
 
-	# print("creating spy plot...")
-	# plt.spy(adj_matrix,marker=',')
-	# plt.show()
+	print("creating spy plot...")
+	plt.spy(adj_matrix,marker='.',ms=0.5)
+	plt.show()
 
+	# Part 2: finds the degree and plots distribution vs node count
 	print("finding degree distribution...")
-	# deg = adj_matrix.getrow(1).sum(axis=1)
-	# print(deg)
-	# print(deg.shape)
-	# print(deg.sum())
 	deg_dist = {}
 	for i in range(s[0]):
 		deg = adj_matrix.getrow(i).sum(axis=1).sum()
