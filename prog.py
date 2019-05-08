@@ -21,7 +21,7 @@ def main():
 	print("done...")
 
 	print("creating spy plot...")
-	plt.spy(adj_matrix,marker='.',ms=0.5)
+	plt.spy(adj_matrix,marker='.',ms=0.75)
 	plt.show()
 
 	# Part 2: finds the degree and plots distribution vs node count
