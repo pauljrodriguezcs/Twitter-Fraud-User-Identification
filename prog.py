@@ -48,7 +48,7 @@ def main():
 		node_cnt.append(deg_dist.get(i))
 
 
-	plt.loglog(node_deg,node_cnt,'r.')
+	plt.loglog(node_deg,node_cnt,'b.')
 	plt.title("degree distribution")
 	plt.xlabel("degree")
 	plt.ylabel("node count")
