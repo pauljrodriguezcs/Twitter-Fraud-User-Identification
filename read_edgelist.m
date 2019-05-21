@@ -1,25 +1,16 @@
+% part 1%
 edge_list = dlmread('assignment_graph.txt',',');
 [m,n] = size(edge_list);
 onearray = ones(m,1);
 adj = sparse(edge_list(:,1),edge_list(:,2), onearray(:,1));
-spy(adj);
+% spy(adj);
 
-% part 2%
-% [m,n] = size(adj);
-% deg_dist = containers.Map;
-%for i=1:m
-%    deg = sum(sum(adj(i,:)));
-%    deg(1,1)
-%    if(deg > 0)
-%        fprintf('true\n')
-%        if(isKey(deg_dist,deg))
-%            oldv = deg_dist(deg);
-%            oldv
-%            deg_dist(deg) = oldv + 1;
-%        else
-%            deg_dist(deg) = 1;
-%        end
-%    end
-%end
+% part 3%
+[U,S,V] = svds(adj,6);
 
-%loglog(deg_dist)
+M = U(:,1:1)*S(1:1,1:1)*V(:,1:1)';
+m = sparse(M);
+spy(m);
+
+
+
