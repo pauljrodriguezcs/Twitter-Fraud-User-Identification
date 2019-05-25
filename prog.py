@@ -95,15 +95,16 @@ def main():
 	# print("\nsolving svds for k =", top_k)
 	# U, S, V = spl.svds(adj_matrix,k=top_k)
 	# print("plotting ... " )
-	# plt.subplot(131)
-	# plt.title("Left Singular Vectors (U)")
+
+	# for i in range(5):
+	# 	plt.subplot(2,3,(i+1))
+	# 	plt.title('Left Singular Vector #%i' % (i+1))
+	# 	plt.plot(U[:,i],markersize=1)
+
+	# plt.subplot(2,3,6)
+	# plt.title('Left Singular Vector Top 5')
 	# plt.plot(U,markersize=1)
-	# plt.subplot(132)
-	# plt.title("Singular Values (S)")
-	# plt.plot(S,markersize=1)
-	# plt.subplot(133)
-	# plt.title("Right Singular Vectors (V)")
-	# plt.plot(V,markersize=1)
+	# plt.legend(('LSV - 1','LSV - 2','LSV - 3','LSV - 4','LSV - 5'),loc='best')
 	# plt.show()
 
 	# d)
@@ -112,62 +113,41 @@ def main():
 	U, S, V = spl.svds(adj_matrix,k=top_k)
 
 	u_abs = np.array(U)
-	# u_abs = np.absolute(np.array(U))
+	u_abs = np.absolute(np.array(U))
 
 	indices = np.ones([100,top_k],dtype=int)
 
+	print("finding top 100 ...")
 	for i in range(top_k):
 		ind = np.argpartition(u_abs[:,i], -100)[-100:]
 		indices[:,i] = ind[np.argsort(u_abs[:,i][ind])]
 
+	u_top = np.zeros(U.shape)
+	v_top = np.zeros(V.shape)
 
-	
-	u_top = np.ones([100,top_k])
-	v_top = np.ones([top_k,100])
-
-	m = np.argmax(u_abs[:,0])
-	print(U[:,0][indices[99,0]])
-	print(U[:,0][m])
-
+	print("obtaining top 100 ...")
 	for i in range(top_k):
-		u_top[:,i] = U[:,i][indices[:,i]]
-		v_top[i,:] = V[i,:].T[indices[:,i]].T
+		for j in range(indices.shape[0]):
+			ind = indices[j,i]
+			u_top[ind,i] = U[ind,i]
+			v_top[i,ind] = V[i,ind]
 
+	print("graphing top 100 ...")
+	for i in range(5):
+		plt.subplot(2,3,(i+1))
+		plt.title('Left Singular Vector #%i' % (i+1))
+
+		m = np.reshape(S[i] * u_top[:,i],(u_top.shape[0],1))
+		m = m @ np.reshape(v_top[i,:],(1,v_top.shape[1]))
+		plt.spy(m,markersize=1)
+
+	plt.subplot(2,3,6)
+	plt.title('Left Singular Vector Top 5')
 	s_dag = np.diag(S)
-	
 	m_top = u_top @ s_dag @ v_top
-
-	print(u_top)
-	print(s_dag)
-	print(v_top)
-	print(m_top)
-
+	print(m_top.shape)
 	plt.spy(m_top,markersize=1)
 	plt.show()
-
-	
-
-	# plt.spy(m,markersize=1,precision=0.1)
-
-	# plt.subplot(341)
-
-	# for i in range(12):
-	# 	print("Plot: ", (i+1))
-	# 	plt.subplot(3,4,(i+1))
-
-	# 	u = U[:,i]
-	# 	s = S[i]
-	# 	v = V[i,:]
-
-	# 	u = np.array(u).reshape(len(u),1)
-	# 	s = np.array(s).reshape(1,1)
-	# 	v = np.array(v).reshape(1,len(v))
-
-	# 	m = (u @ s @ v)
-	# 	plt.spy(m,markersize=1,precision=0.1)
-
-	# plt.show()
-
 	
 	
 if __name__=="__main__":
