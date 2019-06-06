@@ -25,10 +25,10 @@ def main():
 	print("done ...")
 
 	### 3)
-	# print("creating spy plot...")
-	# plt.title("Sparsity Graph")
-	# plt.spy(adj_matrix,marker='.',markersize=1)
-	# plt.show()
+	print("creating spy plot...")
+	plt.title("Sparsity Graph")
+	plt.spy(adj_matrix,marker='.',markersize=1)
+	plt.show()
 
 	### Part 2: finds the degree and plots distribution vs node count ###
 	### 1)
